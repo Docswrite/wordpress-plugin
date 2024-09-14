@@ -12,7 +12,7 @@ require_once __DIR__ . '/DocswriteAPI.php';
 
 if ( ! class_exists( 'Docswrite' ) ) {
     class Docswrite {
-        const DOCSWRITE_CONNECTION_ENDPOINT = 'http://docswrite.com/dashboard/integrations/wordpress_plugin?uuid={website_id}&name={name}&url={url}';
+        const DOCSWRITE_CONNECTION_ENDPOINT = 'https://docswrite.com/dashboard/integrations/wordpress_plugin?uuid={website_id}&name={name}&url={url}';
         const DOCSWRITE_CONNECTION_OPTION = 'docswrite_connection';
         const DOCSWRITE_WEBSITE_ID_OPTION = 'docswrite_website_id';
         const DOCSWRITE_POST_RAW_META_KEY = 'docswrite_raw_post_object';
