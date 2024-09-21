@@ -14,19 +14,16 @@ Automates and optimizes content publication, seamlessly integrating Google Docs 
 
 [youtube https://www.youtube.com/watch?v=6YfX5b50VRY]
 
-Docswrite AI is a powerful tool for editorial and content teams. It automates and optimizes content publication, making it easier for teams to manage and publish content consistently. Whether you're editing blog posts, articles, or any other type of content, Docswrite AI integrates seamlessly with your WordPress site to enhance your content management workflow.
+Docswrite is a powerful tool for editorial and content teams. It automates and optimizes content publication, making it easier for teams to manage and publish content consistently. Whether you're editing blog posts, articles, or any other type of content, Docswrite integrates seamlessly with your WordPress site to enhance your content management workflow.
 
-This plugin allows you to connect your WordPress website to Docswrite, a platform offering seamless content transformation from Google Docs to WordPress. With this integration, website owners can save hundreds of hours per month by simplifying the content deployment process.
+This plugin allows you to connect your WordPress website to Docswrite, a platform offering seamless content transformation from Google Docs to WordPress. With this integration, website owners can save hundreds of hours per month by simplifying the content distribution process.
 
 ### 🌟 Features
 
-– **Content Workflow Management:** Create and manage content workflows with collaborative features, allowing multiple users to work together efficiently.
-
 – **Bulk Publish:** Import multiple documents at once for efficient content management.
+– **Content Workflow Management:** Create and manage content workflows with collaborative features, allowing multiple users to work together efficiently.
 – **Programmatic SEO:** Create and optimize a large number of unique, high-quality web pages at scale.
-
 – **AI-Powered Content Generation Automation:** Generate and publish automatically high-quality, SEO-optimized content, ensuring your posts are optimized for search engines without extra effort.
-
 – **Enhanced Security:** Protect your content with advanced security features and user management controls by securely keeping your website ID.
 
 ### 📦 Installation
@@ -61,7 +58,7 @@ This plugin allows you to connect your WordPress website to Docswrite, a platfor
 
 
 ### 💬 Support
-For support or inquiries, please visit [Docswrite Support](https://help.docswrite.com/support) or contact us at support@docswrite.com
+For support or inquiries, please visit [Docswrite Support](https://help.docswrite.com/support) or contact us at team@docswrite.com
 
 == Frequently Asked Questions ==
 
@@ -81,7 +78,7 @@ Docswrite uses advanced algorithms to generate SEO-optimized content, ensuring y
 To disconnect Docswrite, go to the Docswrite settings page in the WordPress admin menu and click the "Disconnect" button. This will stop synchronization and remove the connection.
 
 = What is the pricing of Docswrite? =
-Docswrite offers a variety of pricing plans. For detailed information, please visit our website.
+Docswrite offers a variety of pricing plans. For detailed information, please visit our [website](https://docswrite.com/pricing)
 
 = How to use Docswrite? =
 Docswrite offers two methods for publishing. You can publish directly from your existing tool, such as Trello, using our Zapier App. Alternatively, you can publish from the Docswrite dashboard. All the fields available in the Zapier app can also be added as a table at the top of your Google Docs document.
@@ -93,7 +90,7 @@ You can configure SEO details within your Google Doc. You also have the option t
 Docswrite is a productivity tool designed to help you and your team publish articles from Google Docs to WordPress. You can also publish articles from Trello, Monday, Airtable, and Google Sheets. You can publish articles from any source using our Zapier App.
 
 = Do I need to pay for the trial? =
-No, we offer a 14-day free trial. No credit card required. You can explore all the features and decide if you want to continue with us. You can [contact us](https://help.docswrite.com/support) anytime if you have any questions.
+No, we offer free 5 publications. No credit card required. You can explore all the features and decide if you want to continue with us. You can [contact us](https://help.docswrite.com/support) anytime if you have any questions.
 
 = Will I be able to set the featured image? =
 Yes, you can set the featured image. You can choose to set the first image found in the Google Docs as the featured image. The featured image can also be set via an image URL.
@@ -111,7 +108,7 @@ You can publish **75 articles** in the startup plan. If you need more, you can u
 You can publish **1000 programmatic posts** in the startup plan. Each row of data from Google Sheets will be published as a separate post.
 
 = What will happen to my articles if I cancel my subscription? =
-Nothing will happen to your articles. They will remain published. Docswrite works as your virtual assistant.
+Nothing will happen to your articles. They will remain published.
 
 = What happens to the images present in my articles? =
 Any images found in your Google Docs will be uploaded to your WordPress site. You can find them in the Media Library. You have the option to automatically set the first image found in the Google Docs as the featured image.
