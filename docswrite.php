@@ -1,12 +1,17 @@
 <?php
 /**
- * Plugin Name: Docswrite
+ * Plugin Name: Docswrite – #1 Google Docs to WordPress ✨
  * Plugin URI: https://docswrite.com/
- * Description: Official Docswrite Integration. Google Docs to WordPress in 1-Click. Save 100s of hours every month. No more copy-pasting. No more formatting issues.
- * Version: 1.0.3
+ * Description: Official Docswrite Integration. Google Docs to WordPress in One-Click. Save 100s of hours every month. No more copy-pasting. No more formatting issues.
+ * Version: 1.2.0
+ * Tested up to: 6.7
+ * Requires PHP: 5.3
  * Author: Docswrite
  * Text Domain: docswrite
- */
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Stable tag: 1.2.0
+ * /
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -40,6 +45,10 @@ if ( ! class_exists( 'Docswrite' ) ) {
          */
         public static function handle_disconnection() {
             if ( isset( $_POST['disconnect'] ) && $_POST['disconnect'] === '1' ) {
+                // Verify nonce
+                if ( ! isset( $_POST['docswrite_disconnect_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['docswrite_disconnect_nonce'] ), 'docswrite_disconnect_action' ) ) {
+                    wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
+                }
                 update_option( self::DOCSWRITE_CONNECTION_OPTION, 0 );
                 wp_safe_redirect( admin_url( 'admin.php?page=docswrite' ) );
                 exit;
@@ -79,31 +88,32 @@ if ( ! class_exists( 'Docswrite' ) ) {
                 : '#';
             ?>
             <img src="https://docswrite.com/full-logo.png" alt="Docswrite Favicon" style="vertical-align: middle; height: 32px; margin-top: 1em"><br/>
-            <h2><?php _e( 'Docswrite Settings', 'docswrite' ); ?></h2>
-            <p><?php _e( 'These settings are only applicable if you have connected your website to Docswrite through this plugin.', 'docswrite' ); ?></p>
+            <h2><?php esc_html_e( 'Docswrite Settings', 'docswrite' ); ?></h2>
+            <p><?php esc_html_e( 'These settings are only applicable if you have connected your website to Docswrite through this plugin.', 'docswrite' ); ?></p>
             <form action="<?php echo esc_url( $connection_url ); ?>" method="post" target="_blank">
                 <p>
-                    <label for="website-id"><?php _e( 'Website ID', 'docswrite' ); ?></label> <br/> <input type="text" id="website-id" name="website-id" size="32" value="<?php echo esc_attr( $website_id ); ?>" readonly>
+                    <label for="website-id"><?php esc_html_e( 'Website ID', 'docswrite' ); ?></label> <br/> <input type="text" id="website-id" name="website-id" size="32" value="<?php echo esc_attr( $website_id ); ?>" readonly>
                 </p>
                 <p>
-                    <label for="connection-status"><?php _e( 'Connection', 'docswrite' ); ?></label> <br/> <span style="color: <?php echo $connection === 'Disconnected' ? 'darkred' : 'darkgreen'; ?>; font-weight: bold"><?php echo esc_html( $connection ); ?></span>
+                    <label for="connection-status"><?php esc_html_e( 'Connection', 'docswrite' ); ?></label> <br/> <span style="color: <?php echo $connection === 'Disconnected' ? 'darkred' : 'darkgreen'; ?>; font-weight: bold"><?php echo esc_html( $connection ); ?></span>
                 </p>
                 <?php if ( $connection === 'Connected' ) { ?>
                     <input type="hidden" name="disconnect" value="1">
+                    <?php wp_nonce_field( 'docswrite_disconnect_action', 'docswrite_disconnect_nonce' ); ?>
                 <?php }
                 // Output submit button
                 if ( $connection === 'Connected' ) {
-                    submit_button( __( 'Disconnect', 'docswrite' ), 'primary', 'connection-button', false, array( 'onclick' => 'return confirm_disconnect()' ) );
+                    submit_button( esc_html__( 'Disconnect', 'docswrite' ), 'primary', 'connection-button', false, array( 'onclick' => 'return confirm_disconnect()' ) );
                 } else {
-                    submit_button( __( 'Connect', 'docswrite' ), 'primary', 'connection-button' );
+                    submit_button( esc_html__( 'Connect', 'docswrite' ), 'primary', 'connection-button' );
                 }
                 ?>
             </form>
             <script type="text/javascript">
                 function confirm_disconnect() {
                     var connection_button = document.getElementById('connection-button');
-                    if (connection_button.value === __('Disconnect', 'docswrite')) {
-                        return confirm('<?php _e( 'Do you really want to disconnect the website? Your content synchronization will be stopped.', 'docswrite' ); ?>');
+                    if (connection_button.value === <?php echo wp_json_encode( __('Disconnect', 'docswrite') ); ?>) {
+                        return confirm(<?php echo wp_json_encode( __( 'Do you really want to disconnect the website? Your content synchronization will be stopped.', 'docswrite' ) ); ?>);
                     }
 
                     return true;

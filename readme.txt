@@ -1,9 +1,9 @@
-=== Docswrite – #1 Content Workflow Publication Automation ✨ ===
+=== Docswrite – #1 Google Docs to WordPress ✨ ===
 Contributors: docswrite
 Tags: google-docs, automated-publishing, seo, content-management, ai
 Requires at least: 3.5.0
-Tested up to: 6.5.5
-Stable tag: 1.0.0
+Tested up to: 6.7
+Stable tag: 1.2.0
 Requires PHP: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

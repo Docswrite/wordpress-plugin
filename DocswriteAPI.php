@@ -34,6 +34,16 @@ if ( ! class_exists( 'DocswriteAPI' ) ) {
 		 * @return void
 		 */
 		public static function execute() {
+			// Ensure REQUEST_METHOD is set before accessing it
+			$request_method = isset($_SERVER['REQUEST_METHOD']) ? wp_unslash($_SERVER['REQUEST_METHOD']) : '';
+
+			// Check if the request is POST
+			if ($request_method !== 'POST') {
+				wp_send_json_error([
+					'message' => 'Invalid request method. Only POST allowed.'
+				], 405);
+				wp_die();
+			}
 			// Check if the request is POST
 			if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
 				wp_send_json_error( [
@@ -206,7 +216,7 @@ if ( ! class_exists( 'DocswriteAPI' ) ) {
 					'tags_input'    => $post_data['tags'],
 					'post_status'   => sanitize_text_field( $post_data['state'] ),
 					'post_author'   => (int) $post_data['author'], // it must be an INT
-					'post_date'     => date( 'Y-m-d H:i:s', strtotime( $post_data['date'] ) ),
+					'post_date'     => gmdate( 'Y-m-d H:i:s', strtotime( $post_data['date'] ) ),
 					'post_excerpt'  => sanitize_text_field( $post_data['excerpt'] ),
 					'post_type'     => sanitize_text_field( $post_data['post_type'] ),
 					'post_category' => $post_data['categories'],
@@ -355,7 +365,7 @@ if ( ! class_exists( 'DocswriteAPI' ) ) {
 							'post_name'     => sanitize_title_with_dashes( $post_data['slug'] ),
 							'post_status'   => sanitize_text_field( $post_data['state'] ),
 							'post_author'   => (int) $post_data['author'], // it must be an INT
-							'post_date'     => date( 'Y-m-d H:i:s', strtotime( $post_data['date'] ) ),
+							'post_date'     => gmdate( 'Y-m-d H:i:s', strtotime( $post_data['date'] ) ),
 							'post_excerpt'  => sanitize_text_field( $post_data['excerpt'] ),
 							'post_type'     => sanitize_text_field( $post_data['post_type'] ),
 							'post_category' => $post_data['categories'],
