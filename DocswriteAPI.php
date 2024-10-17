@@ -35,7 +35,7 @@ if ( ! class_exists( 'DocswriteAPI' ) ) {
 		 */
 		public static function execute() {
 			// Ensure REQUEST_METHOD is set before accessing it
-			$request_method = isset($_SERVER['REQUEST_METHOD']) ? wp_unslash($_SERVER['REQUEST_METHOD']) : '';
+			$request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field($_SERVER['REQUEST_METHOD']) : '';
 
 			// Check if the request is POST
 			if ($request_method !== 'POST') {

@@ -3,15 +3,15 @@
  * Plugin Name: Docswrite – #1 Google Docs to WordPress ✨
  * Plugin URI: https://docswrite.com/
  * Description: Official Docswrite Integration. Google Docs to WordPress in One-Click. Save 100s of hours every month. No more copy-pasting. No more formatting issues.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Tested up to: 6.7
  * Requires PHP: 5.3
  * Author: Docswrite
  * Text Domain: docswrite
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Stable tag: 1.2.0
- * /
+ * Stable tag: 1.2.1
+ */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -28,10 +28,12 @@ if ( ! class_exists( 'Docswrite' ) ) {
 
         /**
          * Initializes the Docswrite plugin by setting up the necessary actions.
+         * @return void
          */
         public static function init() {
-            add_action( 'admin_menu', array( 'Docswrite', 'docswrite_settings_menu' ) );
-            add_action( 'init', array( 'Docswrite', 'handle_disconnection' ) );
+            add_action('admin_menu', array('Docswrite', 'docswrite_settings_menu'));
+            add_action('init', array('Docswrite', 'handle_disconnection'));
+            add_action('admin_enqueue_scripts', array('Docswrite', 'enqueue_admin_assets'));
 
             /**
              * Register REST endpoints
@@ -44,13 +46,13 @@ if ( ! class_exists( 'Docswrite' ) ) {
          * Handles disconnection request from the user.
          */
         public static function handle_disconnection() {
-            if ( isset( $_POST['disconnect'] ) && $_POST['disconnect'] === '1' ) {
+            if (isset($_POST['disconnect']) && $_POST['disconnect'] === '1') {
                 // Verify nonce
-                if ( ! isset( $_POST['docswrite_disconnect_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['docswrite_disconnect_nonce'] ), 'docswrite_disconnect_action' ) ) {
-                    wp_die( 'Security check failed', 'Security Error', array( 'response' => 403 ) );
+                if (!isset($_POST['docswrite_disconnect_nonce']) || !wp_verify_nonce(wp_unslash($_POST['docswrite_disconnect_nonce']), 'docswrite_disconnect_action')) {
+                    wp_die('Security check failed', 'Security Error', array('response' => 403));
                 }
-                update_option( self::DOCSWRITE_CONNECTION_OPTION, 0 );
-                wp_safe_redirect( admin_url( 'admin.php?page=docswrite' ) );
+                update_option(self::DOCSWRITE_CONNECTION_OPTION, 0);
+                wp_safe_redirect(admin_url('admin.php?page=docswrite'));
                 exit;
             }
         }
@@ -60,13 +62,13 @@ if ( ! class_exists( 'Docswrite' ) ) {
          */
         public static function docswrite_settings_menu() {
             add_menu_page(
-                __( 'Docswrite Settings', 'docswrite' ),
-                __( 'Docswrite', 'docswrite' ),
+                __('Docswrite Settings', 'docswrite'),
+                __('Docswrite', 'docswrite'),
                 'manage_options',
                 'docswrite',
-                array( 'Docswrite', 'docswrite_settings_page' ),
-        		plugin_dir_url( __FILE__ ) . 'assets/logos/docswrite-logo.png', 
-                80 
+                array('Docswrite', 'docswrite_settings_page'),
+                plugin_dir_url(__FILE__) . 'assets/logos/docswrite-logo.png',
+                80
             );
         }
 
@@ -87,38 +89,28 @@ if ( ! class_exists( 'Docswrite' ) ) {
                 ) 
                 : '#';
             ?>
-            <img src="https://docswrite.com/full-logo.png" alt="Docswrite Favicon" style="vertical-align: middle; height: 32px; margin-top: 1em"><br/>
-            <h2><?php esc_html_e( 'Docswrite Settings', 'docswrite' ); ?></h2>
-            <p><?php esc_html_e( 'These settings are only applicable if you have connected your website to Docswrite through this plugin.', 'docswrite' ); ?></p>
-            <form action="<?php echo esc_url( $connection_url ); ?>" method="post" target="_blank">
+            <img src="https://docswrite.com/full-logo.png" alt="Docswrite Favicon" class="docswrite-logo">
+            <h2><?php esc_html_e('Docswrite Settings', 'docswrite'); ?></h2>
+            <p><?php esc_html_e('These settings are only applicable if you have connected your website to Docswrite through this plugin.', 'docswrite'); ?></p>
+            <form action="<?php echo esc_url($connection_url); ?>" method="post" target="_blank">
                 <p>
-                    <label for="website-id"><?php esc_html_e( 'Website ID', 'docswrite' ); ?></label> <br/> <input type="text" id="website-id" name="website-id" size="32" value="<?php echo esc_attr( $website_id ); ?>" readonly>
+                    <label for="website-id"><?php esc_html_e('Website ID', 'docswrite'); ?></label> <br/> <input type="text" id="website-id" name="website-id" size="32" value="<?php echo esc_attr($website_id); ?>" readonly>
                 </p>
                 <p>
-                    <label for="connection-status"><?php esc_html_e( 'Connection', 'docswrite' ); ?></label> <br/> <span style="color: <?php echo $connection === 'Disconnected' ? 'darkred' : 'darkgreen'; ?>; font-weight: bold"><?php echo esc_html( $connection ); ?></span>
+                    <label for="connection-status"><?php esc_html_e('Connection', 'docswrite'); ?></label> <br/> <span style="color: <?php echo $connection === 'Disconnected' ? 'darkred' : 'darkgreen'; ?>; font-weight: bold"><?php echo esc_html($connection); ?></span>
                 </p>
-                <?php if ( $connection === 'Connected' ) { ?>
+                <?php if ($connection === 'Connected') { ?>
                     <input type="hidden" name="disconnect" value="1">
-                    <?php wp_nonce_field( 'docswrite_disconnect_action', 'docswrite_disconnect_nonce' ); ?>
+                    <?php wp_nonce_field('docswrite_disconnect_action', 'docswrite_disconnect_nonce'); ?>
                 <?php }
                 // Output submit button
-                if ( $connection === 'Connected' ) {
-                    submit_button( esc_html__( 'Disconnect', 'docswrite' ), 'primary', 'connection-button', false, array( 'onclick' => 'return confirm_disconnect()' ) );
+                if ($connection === 'Connected') {
+                    submit_button(esc_html__('Disconnect', 'docswrite'), 'primary', 'connection-button', false, array('onclick' => 'return confirm_disconnect()' ));
                 } else {
-                    submit_button( esc_html__( 'Connect', 'docswrite' ), 'primary', 'connection-button' );
+                    submit_button(esc_html__('Connect', 'docswrite'), 'primary', 'connection-button');
                 }
                 ?>
             </form>
-            <script type="text/javascript">
-                function confirm_disconnect() {
-                    var connection_button = document.getElementById('connection-button');
-                    if (connection_button.value === <?php echo wp_json_encode( __('Disconnect', 'docswrite') ); ?>) {
-                        return confirm(<?php echo wp_json_encode( __( 'Do you really want to disconnect the website? Your content synchronization will be stopped.', 'docswrite' ) ); ?>);
-                    }
-
-                    return true;
-                }
-            </script>
             <?php
         }
 
@@ -126,7 +118,7 @@ if ( ! class_exists( 'Docswrite' ) ) {
          * Gets the unique website ID for the current site.
          */
         public static function get_website_id() {
-            return get_option( self::DOCSWRITE_WEBSITE_ID_OPTION );
+            return get_option(self::DOCSWRITE_WEBSITE_ID_OPTION);
         }
 
         /**
@@ -174,7 +166,7 @@ if ( ! class_exists( 'Docswrite' ) ) {
          * Generate Website ID
          */
         private static function generate_website_id() {
-            return md5( get_site_url() . wp_generate_uuid4() );
+            return md5(get_site_url() . wp_generate_uuid4());
         }
 
         /**
@@ -182,8 +174,8 @@ if ( ! class_exists( 'Docswrite' ) ) {
          */
         public static function activate() {
             // If website ID option is empty, set value.
-            if ( ! self::get_website_id() ) {
-                update_option( self::DOCSWRITE_WEBSITE_ID_OPTION, self::generate_website_id() );
+            if (!self::get_website_id()) {
+                update_option(self::DOCSWRITE_WEBSITE_ID_OPTION, self::generate_website_id());
             }
         }
 
@@ -191,7 +183,7 @@ if ( ! class_exists( 'Docswrite' ) ) {
          * Checks if the Docswrite connection is active.
          */
         public static function is_connected() {
-            return (bool) get_option( self::DOCSWRITE_CONNECTION_OPTION );
+            return (bool) get_option(self::DOCSWRITE_CONNECTION_OPTION);
         }
 
         /**
@@ -293,6 +285,33 @@ if ( ! class_exists( 'Docswrite' ) ) {
 
             return array('success' => true);
         }
+
+        public static function enqueue_admin_assets($hook) {
+            // Only enqueue on the Docswrite settings page
+            if ('toplevel_page_docswrite' !== $hook) {
+                return;
+            }
+
+            // Enqueue CSS
+            wp_enqueue_style('docswrite-admin-style', plugin_dir_url(__FILE__) . 'assets/css/admin-style.css', array(), '1.0.0');
+
+            // Add inline CSS
+            $custom_css = "
+                .docswrite-logo {
+                    vertical-align: middle;
+                    height: 32px;
+                    margin-top: 1em;
+                }
+            ";
+            wp_add_inline_style('docswrite-admin-style', $custom_css);
+
+            // Enqueue JavaScript
+            wp_enqueue_script('docswrite-admin-script', plugin_dir_url(__FILE__) . 'assets/js/admin-script.js', array('jquery'), '1.0.0', true);
+            wp_localize_script('docswrite-admin-script', 'docswriteData', array(
+                'disconnectConfirmMessage' => __('Do you really want to disconnect the website? Your content synchronization will be stopped.', 'docswrite'),
+                'disconnectButtonText' => __('Disconnect', 'docswrite')
+            ));
+        }
     }
 
     Docswrite::init();
@@ -301,5 +320,4 @@ if ( ! class_exists( 'Docswrite' ) ) {
 /**
  * Set website_id when plugin is activated
  */
-register_activation_hook( __FILE__, array( 'Docswrite', 'activate' ) );
-?>
+register_activation_hook(__FILE__, array('Docswrite', 'activate'));
