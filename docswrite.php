@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Docswrite – #1 Google Docs to WordPress ✨
+ * Plugin Name: Docswrite – #1 Export Google Docs to Your Site ✨
  * Plugin URI: https://docswrite.com/
  * Description: Official Docswrite Integration. Google Docs to WordPress in One-Click. Save 100s of hours every month. No more copy-pasting. No more formatting issues.
  * Version: 1.2.1
