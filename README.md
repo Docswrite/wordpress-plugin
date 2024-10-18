@@ -1,9 +1,9 @@
-=== Docswrite – #1 Export Google Docs to Your Site ✨ ===
+=== Docswrite – Export Google Docs to Your Site ✨ ===
 Contributors: docswrite
 Tags: google-docs, automated-publishing, seo, content-management, ai
 Requires at least: 3.5.0
 Tested up to: 6.7
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 Requires PHP: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Docswrite – #1 Export Google Docs to Your Site ✨
+ * Plugin Name: Docswrite – Export Google Docs to Your Site ✨
  * Plugin URI: https://docswrite.com/
  * Description: Official Docswrite Integration. Google Docs to WordPress in One-Click. Save 100s of hours every month. No more copy-pasting. No more formatting issues.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Tested up to: 6.7
  * Requires PHP: 5.3
  * Author: Docswrite
@@ -89,7 +89,7 @@ if ( ! class_exists( 'Docswrite' ) ) {
                 ) 
                 : '#';
             ?>
-            <img src="https://docswrite.com/full-logo.png" alt="Docswrite Favicon" class="docswrite-logo">
+            <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'assets/logos/docswrite-logo.svg'); ?>" alt="Docswrite Logo" class="docswrite-logo">
             <h2><?php esc_html_e('Docswrite Settings', 'docswrite'); ?></h2>
             <p><?php esc_html_e('These settings are only applicable if you have connected your website to Docswrite through this plugin.', 'docswrite'); ?></p>
             <form action="<?php echo esc_url($connection_url); ?>" method="post" target="_blank">
